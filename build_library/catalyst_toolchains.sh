@@ -1,8 +1,6 @@
 #!/bin/bash
 
 set -e
-
-export clst_PKGCACHE=""
 source /tmp/chroot-functions.sh
 source /tmp/toolchain_util.sh
 
