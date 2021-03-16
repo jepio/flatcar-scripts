@@ -247,6 +247,12 @@ _get_dependency_list() {
         egrep -v "(=$(echo "${pkgs[*]}")-[0-9])"
 }
 
+image_group="developer"
+BOARD="amd64-usr"
+FLATCAR_VERSION="2021.03.16+dev-main-nightly-2227"
+image_path="pkgs"
+export PORTAGE_BINHOST="https://storage.googleapis.com/flatcar-jenkins/${image_group}/sdk/${BOARD}/${FLATCAR_VERSION}/${image_path}"
+
 # Configure a new ROOT
 # Values are copied from the environment or the current host configuration.
 # Usage: CBUILD=foo-bar-linux-gnu ROOT=/foo/bar SYSROOT=/foo/bar configure_portage coreos:some/profile
@@ -266,7 +272,7 @@ _configure_sysroot() {
 
     $sudo tee "${ROOT}/etc/portage/make.conf" >/dev/null <<EOF
 $(portageq envvar -v CHOST CBUILD ROOT \
-    PORTDIR PORTDIR_OVERLAY DISTDIR PKGDIR)
+    PORTDIR PORTDIR_OVERLAY DISTDIR PKGDIR PORTAGE_BINHOST)
 HOSTCC=\${CBUILD}-gcc
 PKG_CONFIG_PATH="\${SYSROOT}/usr/lib/pkgconfig/"
 EOF
